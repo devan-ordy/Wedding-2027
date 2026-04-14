@@ -132,7 +132,31 @@ if ('serviceWorker' in navigator) {
   else wire();
 })();
 </script>
+<script>
+// Catch and display any JS error on screen
+window.addEventListener('error', function(e){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#b00;color:#fff;padding:10px;font:12px monospace;white-space:pre-wrap;z-index:99999;max-height:50vh;overflow:auto';
+  d.textContent = 'JS ERROR: ' + (e.message || e.error) + '\n@ ' + (e.filename||'?') + ':' + (e.lineno||'?') + ':' + (e.colno||'?');
+  document.body.appendChild(d);
+});
+window.addEventListener('unhandledrejection', function(e){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#b00;color:#fff;padding:10px;font:12px monospace;white-space:pre-wrap;z-index:99999;max-height:50vh;overflow:auto';
+  d.textContent = 'PROMISE ERROR: ' + (e.reason && (e.reason.stack || e.reason.message || e.reason));
+  document.body.appendChild(d);
+});
+</script>
 <script type="module" src="./app.js"></script>
+<script type="module">
+// Also try importing and report any issue
+import('./app.js').catch(function(err){
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#b00;color:#fff;padding:10px;font:12px monospace;white-space:pre-wrap;z-index:99999;max-height:50vh;overflow:auto';
+  d.textContent = 'IMPORT ERROR: ' + (err && (err.stack || err.message || err));
+  document.body.appendChild(d);
+});
+</script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
