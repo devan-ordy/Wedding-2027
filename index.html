@@ -88,21 +88,43 @@
 <!-- Modal host -->
 <div id="modal" class="modal" hidden></div>
 
-<div id="debug-errors" style="position:fixed;bottom:0;left:0;right:0;background:#b00;color:#fff;font:12px/1.4 monospace;padding:8px;white-space:pre-wrap;z-index:99999;max-height:40vh;overflow:auto;display:none"></div>
 <script>
+// Unregister any old service worker so fresh code always loads
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+}
+// Inline PIN handler so unlock works even if the module fails to load
 (function(){
-  var box = document.getElementById('debug-errors');
-  function show(msg){ box.style.display='block'; box.textContent += msg + '\n\n'; }
-  window.addEventListener('error', function(e){
-    show('ERROR: ' + (e.message||e.error) + '\nFile: ' + (e.filename||'?') + ':' + (e.lineno||'?'));
-  });
-  window.addEventListener('unhandledrejection', function(e){
-    show('PROMISE REJECTED: ' + (e.reason && (e.reason.stack || e.reason.message || e.reason)));
-  });
-  // Also unregister any old service worker so we get fresh code
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+  var PIN = '1397';
+  function wire(){
+    var input = document.getElementById('pin-input');
+    var btn = document.getElementById('pin-submit');
+    var err = document.getElementById('pin-error');
+    var gate = document.getElementById('pin-gate');
+    if (!input || !btn) { setTimeout(wire, 50); return; }
+    function tryUnlock(){
+      if (input.value === PIN) {
+        try { localStorage.setItem('pin-ok', Date.now()); } catch(e){}
+        if (gate) gate.hidden = true;
+      } else {
+        if (err) err.hidden = false;
+        input.value = '';
+        input.focus();
+      }
+    }
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', function(e){ if (e.key === 'Enter') tryUnlock(); });
+    input.addEventListener('input', function(){ if (err) err.hidden = true; });
+    // Auto-unlock if recently unlocked
+    try {
+      var prev = localStorage.getItem('pin-ok');
+      if (prev && (Date.now() - Number(prev)) < 30*24*60*60*1000) {
+        if (gate) gate.hidden = true;
+      }
+    } catch(e){}
   }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+  else wire();
 })();
 </script>
 <script type="module" src="./app.js"></script>
