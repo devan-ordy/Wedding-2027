@@ -88,6 +88,23 @@
 <!-- Modal host -->
 <div id="modal" class="modal" hidden></div>
 
+<div id="debug-errors" style="position:fixed;bottom:0;left:0;right:0;background:#b00;color:#fff;font:12px/1.4 monospace;padding:8px;white-space:pre-wrap;z-index:99999;max-height:40vh;overflow:auto;display:none"></div>
+<script>
+(function(){
+  var box = document.getElementById('debug-errors');
+  function show(msg){ box.style.display='block'; box.textContent += msg + '\n\n'; }
+  window.addEventListener('error', function(e){
+    show('ERROR: ' + (e.message||e.error) + '\nFile: ' + (e.filename||'?') + ':' + (e.lineno||'?'));
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    show('PROMISE REJECTED: ' + (e.reason && (e.reason.stack || e.reason.message || e.reason)));
+  });
+  // Also unregister any old service worker so we get fresh code
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+  }
+})();
+</script>
 <script type="module" src="./app.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
