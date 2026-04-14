@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0B7A8F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wedding 2027">
+<title>Ordy & Devan — 2027</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<!-- PIN GATE -->
+<div id="pin-gate" class="pin-gate">
+  <div class="pin-card">
+    <div class="pin-palm" aria-hidden="true">
+      <svg viewBox="0 0 80 80" width="72" height="72">
+        <circle cx="40" cy="40" r="36" fill="#FFE8DA"/>
+        <path d="M40 55 Q38 42 40 22 Q42 42 40 55 Z" fill="#0B7A8F"/>
+        <path d="M40 28 Q20 22 10 30 Q22 26 40 32 Z" fill="#2A9D8F"/>
+        <path d="M40 28 Q60 22 70 30 Q58 26 40 32 Z" fill="#2A9D8F"/>
+        <path d="M40 28 Q25 14 18 14 Q28 20 40 32 Z" fill="#2A9D8F"/>
+        <path d="M40 28 Q55 14 62 14 Q52 20 40 32 Z" fill="#2A9D8F"/>
+      </svg>
+    </div>
+    <h1 class="pin-title">Ordy &amp; Devan</h1>
+    <p class="pin-sub">Saint Lucia, 2027</p>
+    <input id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off">
+    <button id="pin-submit">Unlock</button>
+    <p id="pin-error" class="pin-error" hidden>Not quite. Try again.</p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="app" hidden>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">O &amp; D</span>
+        <span class="brand-sub">Saint Lucia · 2027</span>
+      </div>
+      <div class="topbar-right">
+        <span id="sync-indicator" class="sync-dot" title="Sync status">●</span>
+        <button id="settings-btn" class="icon-btn" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <nav class="tabbar">
+    <button class="tab" data-view="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1Z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="tab" data-view="budget">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span>Budget</span>
+    </button>
+    <button class="tab" data-view="venues">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      <span>Venues</span>
+    </button>
+    <button class="tab" data-view="trip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <span>Trip</span>
+    </button>
+    <button class="tab" data-view="more">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+      <span>More</span>
+    </button>
+  </nav>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast" hidden></div>
+
+<!-- Modal host -->
+<div id="modal" class="modal" hidden></div>
+
+<script type="module" src="./app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(console.error);
+  });
+}
+</script>
+</body>
+</html>
